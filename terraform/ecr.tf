@@ -11,6 +11,19 @@ resource "aws_ecr_repository" "train_stats_realtime" {
   }
 }
 
-output "repository_url" {
+resource "aws_ecr_repository" "train_stats_movement" {
+  name                 = "train_stats_movement"
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+}
+
+output "trains_stats_realtime_repository_url" {
   value = aws_ecr_repository.train_stats_realtime.repository_url
+}
+
+output "trains_stats_movement_repository_url" {
+  value = aws_ecr_repository.train_stats_movement.repository_url
 }
