@@ -20,11 +20,6 @@ resource "aws_ecr_repository" "train_stats_movement" {
   }
 }
 
-resource "aws_ecr_repository" "train_stats_ui" {
-  name                 = "train_stats_ui"
-  image_tag_mutability = "MUTABLE"
-}
-
 output "trains_stats_realtime_repository_url" {
   value = aws_ecr_repository.train_stats_realtime.repository_url
 }
