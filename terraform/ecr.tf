@@ -21,7 +21,7 @@ resource "aws_ecr_repository" "train_stats_movement" {
 }
 
 resource "aws_ecr_repository" "train_stats_ui" {
-  name = "train_stats_ui"
+  name                 = "train_stats_ui"
   image_tag_mutability = "MUTABLE"
 }
 
