@@ -37,3 +37,7 @@ output "trains_stats_realtime_repository_url" {
 output "trains_stats_movement_repository_url" {
   value = aws_ecr_repository.train_stats_movement.repository_url
 }
+
+output "train_stats_ui_repository_url" {
+  value = aws_ecr_repository.trainstats_ui.repository_url
+}
