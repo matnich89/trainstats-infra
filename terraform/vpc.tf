@@ -6,7 +6,7 @@ module "trainstats-vpc" {
   cidr            = var.vpc_cidr_block
   private_subnets = var.private_subnet_cidr_blocks
   public_subnets  = var.public_subnet_cidr_blocks
-  azs             = ["us-east-1a"]
+  azs             = ["us-east-1a", "us-east-1b"]
 
   enable_nat_gateway   = true
   single_nat_gateway   = true
