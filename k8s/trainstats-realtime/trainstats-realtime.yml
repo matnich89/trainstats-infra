@@ -1,0 +1,54 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trainstats-realtime
+  labels:
+    app: trainstats-realtime
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: trainstats-realtime
+  template:
+    metadata:
+      labels:
+        app: trainstats-realtime
+    spec:
+      containers:
+        - name: trainstats-realtime
+          image: registry.digitalocean.com/mat-n-image-registry/trainstats-realtime@sha256:5ae3cf9ef1def5dd1b6cc6c38606d59dc23e4699c3c26e999dc89735840638f3
+          env:
+            - name: NR_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: example-secret
+                  key: NR_USERNAME
+            - name: NR_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: example-secret
+                  key: NR_PASSWORD
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              cpu: 500m
+              memory: 256Mi
+            requests:
+              cpu: 200m
+              memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: trainstats-realtime
+  namespace: default
+spec:
+  selector:
+    app: trainstats-realtime
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP
