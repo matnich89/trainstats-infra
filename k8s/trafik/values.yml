@@ -1,0 +1,5 @@
+additionalArguments:
+  - "--certificatesresolvers.myresolver.acme.httpchallenge=true"
+  - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
+  - "--certificatesresolvers.myresolver.acme.email=mathewnicholls@protonmail.com"
+  - "--certificatesresolvers.myresolver.acme.storage=/data/acme.json"

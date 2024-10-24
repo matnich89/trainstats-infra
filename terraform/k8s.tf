@@ -6,7 +6,7 @@ resource "digitalocean_kubernetes_cluster" "kubernetes_cluster" {
 
   node_pool {
     name       = "trainstats-worker-pool"
-    size       = "s-4vcpu-8gb"
+    size       = "s-2vcpu-4gb"
     node_count = 2
   }
 }

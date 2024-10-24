@@ -1,0 +1,47 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: trainstats-ingressroute
+  namespace: default  # adjust if your services are in a different namespace
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: (Host(`trainstats.co.uk`) || Host(`www.trainstats.co.uk`)) && PathPrefix(`/passenger`)
+      kind: Rule
+      services:
+        - name: trainstats-realtime
+          port: 8080
+    - match: Host(`trainstats.co.uk`) || Host(`www.trainstats.co.uk`)
+      kind: Rule
+      services:
+        - name: trainstats-ui
+          port: 3000
+  tls:
+    certResolver: myresolver
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: redirect-to-https
+spec:
+  redirectScheme:
+    scheme: https
+    permanent: true
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: trainstats-ingressroute-http
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`trainstats.co.uk`) || Host(`www.trainstats.co.uk`)
+      kind: Rule
+      middlewares:
+        - name: redirect-to-https
+      services:
+        - name: noop@internal
+          kind: TraefikService

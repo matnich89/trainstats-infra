@@ -1,4 +1,3 @@
-# trainstats-ui Deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -17,7 +16,7 @@ spec:
     spec:
       containers:
         - name: trainstats-ui
-          image: registry.digitalocean.com/mat-n-image-registry/trainstats-ui@sha256:52e08c837c9a2257734a6b98e0ef896b1d1b7d2be864c8e573cce25ca2b0c989
+          image: registry.digitalocean.com/mat-n-image-registry/trainstats-ui@sha256:5e6ead04e4c2f91387d8d1b75cb9de7f6d7063b7a09963d980edc1ab56346ba3
           ports:
             - containerPort: 3000
           resources:
@@ -27,10 +26,7 @@ spec:
             limits:
               cpu: 500m
               memory: 512Mi
-
 ---
-
-# trainstats-ui Service
 apiVersion: v1
 kind: Service
 metadata:
@@ -42,93 +38,3 @@ spec:
     - protocol: TCP
       port: 3000
       targetPort: 3000
-
----
-
-# trainstats-realtime Deployment
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: trainstats-realtime
-  labels:
-    app: trainstats-realtime
-spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      app: trainstats-realtime
-  template:
-    metadata:
-      labels:
-        app: trainstats-realtime
-    spec:
-      containers:
-        - name: trainstats-realtime
-          image: registry.digitalocean.com/mat-n-image-registry/trainstats-realtime:ccf8553b4384ad81402f372eeefba1be27dd36e4
-          env:
-            - name: NR_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: example-secret
-                  key: NR_USERNAME
-            - name: NR_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: example-secret
-                  key: NR_PASSWORD
-          ports:
-            - containerPort: 8080
-          resources:
-            limits:
-              cpu: 500m
-              memory: 256Mi
-            requests:
-              cpu: 200m
-              memory: 128Mi
-
----
-
-# trainstats-realtime Service
-apiVersion: v1
-kind: Service
-metadata:
-  name: trainstats-realtime
-spec:
-  selector:
-    app: trainstats-realtime
-  ports:
-    - protocol: TCP
-      port: 8080
-      targetPort: 8080
-
----
-
-# Ingress Configuration
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: trainstats-ui-ingress
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"  # Disable SSL redirect
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
-    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
-    nginx.ingress.kubernetes.io/proxy-buffering: "off"
-spec:
-  rules:
-    - http:
-        paths:
-          - path: /national
-            pathType: Prefix
-            backend:
-              service:
-                name: trainstats-realtime
-                port:
-                  number: 8080
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: trainstats-ui
-                port:
-                  number: 3000
