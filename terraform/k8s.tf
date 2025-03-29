@@ -2,7 +2,7 @@
 resource "digitalocean_kubernetes_cluster" "kubernetes_cluster" {
   name    = "trainstats-cluster"
   region  = "ams3"
-  version = "1.31.1-do.3"
+  version = "1.32.2-do.0"
 
   node_pool {
     name       = "trainstats-worker-pool"

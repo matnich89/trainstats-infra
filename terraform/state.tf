@@ -8,7 +8,7 @@ terraform {
 
   backend "s3" {
     endpoints = {
-      s3  = "https://ams3.digitaloceanspaces.com"
+      s3  = "https://nyc3.digitaloceanspaces.com"
     }
     bucket                      = "trainstats-terraform-state"
     key                         = "terraform.tfstate"
@@ -21,4 +21,8 @@ terraform {
   }
 }
 
-provider "digitalocean" {}
+variable "do_token" {}
+
+provider "digitalocean" {
+  token = var.do_token
+}

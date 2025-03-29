@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: trainstats-ui
-          image: registry.digitalocean.com/mat-n-image-registry/trainstats-ui@sha256:5e6ead04e4c2f91387d8d1b75cb9de7f6d7063b7a09963d980edc1ab56346ba3
+          image: registry.digitalocean.com/matnicholls/trainstats-ui@sha256:18c4af219acb0338681521527e00e8bfde66e6caf0ca9b8548c3beb20a26e69e
           ports:
             - containerPort: 3000
           resources:

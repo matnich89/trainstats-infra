@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: trainstats-realtime
-          image: registry.digitalocean.com/mat-n-image-registry/trainstats-realtime@sha256:8e3e9f306f92089589536078313475808d48a10cd24607f698818ef0d7cf461b
+          image: registry.digitalocean.com/matnicholls/trainstats-realtime@sha256:1b1f9fc38209b02b08db3044a8a17f5dc6573331494254828be8338e2b3a498b
           env:
             - name: NR_USERNAME
               valueFrom:
